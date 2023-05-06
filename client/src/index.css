@@ -1,3 +1,9 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +11,156 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+:root{
+  --bg-color: #131313;
+  --header-bg-color: #00ABC2;
+  --fire-day-bg-color: #FFEC2D;
+  --font-color: #E8E8E8;
+}
+
+
+body{
+  background: var(--bg-color);
+  color: var(--font-color)
+}
+
+
+
+/* HEADER */
+header{
+  width: 100vw;
+  height: 55px;
+  background: var(--header-bg-color);
+  display: flex;
+}
+.header-wrapper{
+  width: 90vw;
+  height: 40px;
+  margin: auto;
+}
+.header-container{
+  height: inherit;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cursorable{
+  cursor: pointer;
+}
+.arrow{
+  height: 17px;
+}
+
+
+/* HEADER PROFILE ITEM */
+.header-profile{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px
+}
+.header-logo{
+  height: 35px;
+  width: 35px;
+}
+.header-profile .text .username {
+  line-height: 0.5;
+}
+.header-profile .text .league_name {
+  font-size: 13px;
+  opacity: 0.6;
+  color: #E2E2E2;
+}
+
+/* HEADER MODULE ITEM */
+.header-module{
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10vw;
+}
+
+
+/* HEADER TOOLS ITEM */
+.header-tools{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px
+}
+.header-fire_days{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 7px;
+}
+
+
+
+/* MAIN */
+main{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%)
+}
+.main-wrapper{
+  width: 550px;
+  margin: 25px auto auto;
+}
+.main-topic{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 35px;
+}
+.main-topic .title{
+  font-size: 24px;
+}
+.main-topic .image{
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+}
+.main-topic .image img{
+  height: 40vh;
+  border-radius: 6px;
+}
+.main-topic .rating_bar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+}
+
+.main-topic .level{
+  width: 60px;
+  height: 60px;
+
+  border: solid white 1px;
+  border-radius: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 18px;
+}
+
+.main-topic .stars{
+  display: flex;
+  gap: 15px;
 }
