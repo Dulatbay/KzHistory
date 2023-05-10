@@ -1,9 +1,10 @@
 import {authService} from "../../../services/authService";
 import {AppDispatch} from "../../store";
-import {setError, setIsAuth, setIsLoading, setUser} from "./userSlice";
+import {setCurrentModuleId, setCurrentTopicId, setError, setIsAuth, setIsLoading, setUser} from "./userSlice";
 import ILoginData from "../../../types/ILoginData";
 import IRegData from "../../../types/IRegData";
 import IUser from "../../../types/IUser";
+import App from "../../../components/App";
 
 
 export const UserActions = {
@@ -50,6 +51,27 @@ export const UserActions = {
         }
     },
 
+    changeTopic: (topicId: number) => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(setIsLoading(true));
+            dispatch(setCurrentTopicId(topicId));
+        } catch (e: any) {
+            dispatch(setError(e.message))
+        } finally {
+            dispatch(setIsLoading(false));
+        }
+    },
+    changeModule: (moduleId: number) => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(setIsLoading(true));
+            dispatch(setCurrentModuleId(moduleId));
+        } catch (e: any) {
+            dispatch(setError(e.message))
+        } finally {
+            dispatch(setIsLoading(false));
+        }
+    },
+
     saveUser: (user: IUser, dispatch: AppDispatch) => {
         localStorage.setItem('isAuth', 'true')
         localStorage.setItem('user', JSON.stringify(user))
@@ -58,7 +80,6 @@ export const UserActions = {
         dispatch(setUser(user));
         dispatch(setError(''))
     },
-
     clearUser: (dispatch: AppDispatch) => {
         localStorage.removeItem('isAuth')
         localStorage.removeItem('user')

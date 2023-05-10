@@ -215,6 +215,11 @@ header {
     gap: 35px;
 }
 
+.main-topic .content{
+    gap: 35px;
+    width: 100%;
+}
+
 .main-topic .title {
     font-size: 24px;
 }
@@ -228,6 +233,7 @@ header {
 
 .main-topic .image img {
     height: 40vh;
+    overflow: hidden;
 }
 
 .main-topic .rating_bar {

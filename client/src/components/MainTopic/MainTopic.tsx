@@ -21,7 +21,7 @@ export const MainTopic: FC = () => {
                                      imageUrl={'/assets/images/UpArrow.svg'}
                                      classNames={'previous_button cursorable'}
                         />
-                        <Content />
+                        <Content title={"Test"} imageUri={"http://localhost:8080/static/1234.jpg"}/>
                         <RatingBar />
                         <ArrowButton buttonCallback={nextButtonHandler}
                                      imageUrl={'/assets/images/DownArrow.svg'}

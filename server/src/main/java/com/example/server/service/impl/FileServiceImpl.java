@@ -4,10 +4,12 @@ import com.example.server.exceptions.FileStorageException;
 import com.example.server.property.FileProperties;
 import com.example.server.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -17,12 +19,13 @@ import java.time.LocalDateTime;
 public class FileServiceImpl implements FileService {
 
     private final Path fileStorageLocation;
-
+    private final ResourceLoader resourceLoader;
     @Autowired
-    public FileServiceImpl(FileProperties fileProperties) {
+    public FileServiceImpl(FileProperties fileProperties, ResourceLoader resourceLoader) {
         this.fileStorageLocation = Path.of(fileProperties.getUploadDir())
                 .toAbsolutePath()
                 .normalize();
+        this.resourceLoader = resourceLoader;
         try {
             Files.createDirectories(this.fileStorageLocation);
         } catch (Exception e) {
@@ -64,5 +67,10 @@ public class FileServiceImpl implements FileService {
         } catch (Exception e) {
             System.out.println("Unsuccessful delete file");
         }
+    }
+
+    @Override
+    public Resource loadAsResource(String filename) {
+        return new FileSystemResource("./static/" + filename);
     }
 }

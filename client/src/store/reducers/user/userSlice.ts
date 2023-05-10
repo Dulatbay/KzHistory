@@ -16,7 +16,7 @@ const initialState: IUserState = {
     user: JSON.parse(localStorage.getItem('user') || '{}'),
     error: "",
     currentModuleId: null,
-    currentTopicId: null
+    currentTopicId: null,
 }
 
 export const userSlice = createSlice({

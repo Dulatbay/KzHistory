@@ -1,12 +1,18 @@
 import {FC} from "react";
+import $api, {BASE_URL} from "../../../services/axiosService";
 
-export const Content: FC = () => {
+interface ContentProps {
+    title: string,
+    imageUri: string
+}
+
+export const Content: FC<ContentProps> = ({title, imageUri}) => {
     return (
-        <>
-            <div className="title cursorable">Цель Керей и Жанибек хана</div>
+        <div className="content flex-column-center">
+            <div className="title cursorable">title</div>
             <div className="image cursorable">
-                <img className="border-round" src="/assets/images/Kerei_Zhanibek.png" alt=""/>
+                <img className="border-round" src={imageUri} alt=""/>
             </div>
-        </>
+        </div>
     )
 }
