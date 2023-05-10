@@ -13,7 +13,7 @@ export const MainTopic: FC = () => {
 
 
     return (
-        <main>
+        <main className="centered-container content-container">
             <div className="main-wrapper">
                 <div className="main-container">
                     <div className="main-topic">
@@ -21,8 +21,8 @@ export const MainTopic: FC = () => {
                                      imageUrl={'/assets/images/UpArrow.svg'}
                                      classNames={'previous_button cursorable'}
                         />
-                        <Content/>
-                        <RatingBar/>
+                        <Content />
+                        <RatingBar />
                         <ArrowButton buttonCallback={nextButtonHandler}
                                      imageUrl={'/assets/images/DownArrow.svg'}
                                      classNames={'next_button cursorable'}

@@ -11,7 +11,7 @@ export const HeaderModule: FC = () => {
     }
 
     return (
-        <div className="header-module">
+        <div className="header-module flex-row-between">
             <ArrowButton buttonCallback={previousButtonHandler}
                          imageUrl={'/assets/images/LeftArrow.svg'}
                          classNames={'previous_button cursorable'} />

@@ -1,12 +1,12 @@
 import React, {FC} from "react";
 import {Header} from "../components/Header/Header";
-import {MainTopic} from "../components/MainTopic/MainTopic";
+import {Outlet} from "react-router-dom";
 
-export const HomePage : FC = () =>{
+export const HomePage : FC = () => {
     return (
         <div className="home-page">
             <Header/>
-            <MainTopic/>
+            <Outlet />
         </div>
     )
 }

@@ -5,7 +5,7 @@ export const Content: FC = () => {
         <>
             <div className="title cursorable">Цель Керей и Жанибек хана</div>
             <div className="image cursorable">
-                <img className="arrow" src="/assets/images/Kerei_Zhanibek.png" alt=""/>
+                <img className="border-round" src="/assets/images/Kerei_Zhanibek.png" alt=""/>
             </div>
         </>
     )
