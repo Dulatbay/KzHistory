@@ -12,13 +12,14 @@ public class Topic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // TODO: Добавить number для нумеризации тем
+    @Column(nullable = false)
+    private Integer number;
 
     @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
-    private String contentHTML;
+    private String fileUri;
 
     @Column(nullable = false)
     private String imageUri;

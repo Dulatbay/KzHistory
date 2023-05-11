@@ -1,0 +1,28 @@
+.module-list-container{
+    text-align: center;
+    margin: 25px auto auto;
+}
+
+.module-list-container .title{
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.module .module-image img{
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
+}
+
+.module{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 150px;
+}
+
+.module .content{
+    gap: 15px;
+}
+

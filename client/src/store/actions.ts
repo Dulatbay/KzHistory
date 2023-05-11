@@ -1,5 +1,7 @@
-import {UserActions} from "./reducers/user/userActions";
+import {userActions} from "./reducers/user/userActions";
+import {moduleActions} from "./reducers/module/moduleActions";
 
 export const actions = {
-    ...UserActions
+    ...userActions,
+    ...moduleActions
 }

@@ -29,6 +29,11 @@ public class UserServiceIml implements UserService {
     }
 
     @Override
+    public User patch(User user) throws Exception {
+        return userRepository.save(user);
+    }
+
+    @Override
     public User delete(Long id) throws Exception {
         Optional<User> optionalUser = this.findById(id);
 

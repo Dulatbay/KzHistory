@@ -1,0 +1,46 @@
+.login-wrapper {
+    width: 100%;
+    height: 100%;
+
+    padding: 50px;
+}
+
+.login-container {
+    width: 400px;
+
+    background: var(--secondary-bg-color);
+}
+
+.login-content {
+    width: 100%;
+    height: 100%;
+    gap: 50px;
+}
+
+.login-text {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.login-fields {
+    width: 100%;
+    gap: 20px;
+}
+
+.login-fields .input_field {
+    width: 80%;
+}
+
+.login-bottom {
+    width: 100%;
+    gap: 10px;
+}
+
+.login-bottom .button {
+    width: 50%;
+}
+
+.login-bottom .line {
+    background: var(--fire-day-bg-color);
+    width: 40%;
+}

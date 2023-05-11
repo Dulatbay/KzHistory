@@ -1,0 +1,24 @@
+@import "root.css";
+
+@import "./components/header.css";
+@import "./components/login.css";
+@import "./components/registration.css";
+@import "./components/main-topic.css";
+@import "./components/profile.css";
+@import "./components/all-modules.css";
+
+@import "./ui/button.css";
+@import "./ui/container.css";
+@import "./ui/input-field.css";
+@import "./ui/line.css";
+
+
+.pdf-container {
+    width: 100%;
+    height: 100%;
+    background: white;
+}
+.pdf-page canvas{
+    margin: auto;
+}
+

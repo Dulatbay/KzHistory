@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
     User save(User user) throws Exception;
+    User patch(User user) throws Exception;
     User delete(Long id) throws Exception;
     Optional<User> findById(Long id);
     Optional<User> findByEmail(String email);

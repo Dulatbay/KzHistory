@@ -1,0 +1,58 @@
+.main-wrapper {
+    margin: 25px auto auto;
+}
+
+.main-topic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 35px;
+}
+
+.main-topic .content{
+    gap: 35px;
+    width: 100%;
+}
+
+.main-topic .title {
+    font-size: 20px;
+}
+
+.main-topic .image {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+}
+
+.main-topic .image img {
+    height: 300px;
+    width: 300px;
+    overflow: hidden;
+}
+
+.main-topic .rating_bar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.main-topic .level {
+    width: 60px;
+    height: 60px;
+
+    border: solid white 1px;
+    border-radius: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 18px;
+}
+
+.main-topic .stars {
+    display: flex;
+    gap: 15px;
+}

@@ -1,7 +1,6 @@
-import {FC, useEffect, useRef, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../store/hooks";
-import $api from "../services/axiosService";
+import {useAppSelector} from "../store/hooks";
 import {useAction} from "../hooks/useAction";
 
 export const LoginPage: FC = () => {

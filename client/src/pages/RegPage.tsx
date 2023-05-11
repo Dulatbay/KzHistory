@@ -12,7 +12,7 @@ export const RegPage: FC = () => {
 
     useEffect(() => {
         if (isAuth) navigate('/')
-    }, [isAuth])
+    }, [isAuth, navigate])
 
     const regHandleSubmit = async () => {
         if (formRef) {

@@ -1,13 +1,12 @@
 import {authService} from "../../../services/authService";
 import {AppDispatch} from "../../store";
-import {setCurrentModuleId, setCurrentTopicId, setError, setIsAuth, setIsLoading, setUser} from "./userSlice";
+import {setError, setIsAuth, setIsLoading, setUser} from "./userSlice";
 import ILoginData from "../../../types/ILoginData";
 import IRegData from "../../../types/IRegData";
 import IUser from "../../../types/IUser";
-import App from "../../../components/App";
 
 
-export const UserActions = {
+export const userActions = {
 
     login: (loginData: ILoginData) => async (dispatch: AppDispatch) => {
         try {
@@ -15,12 +14,12 @@ export const UserActions = {
 
             const res = await authService.login(loginData);
 
-            UserActions.saveUser(res.data, dispatch);
+            userActions.saveUser(res.data, dispatch);
         } catch (e: any) {
-            dispatch(setError(e.message || 'Login failed'))
-            UserActions.clearUser(dispatch);
+            dispatch(setError(e.message + ' - Login failed'))
+            userActions.clearUser(dispatch);
         } finally {
-            dispatch(setIsLoading(true))
+            dispatch(setIsLoading(false))
         }
     },
 
@@ -30,10 +29,12 @@ export const UserActions = {
 
             const res = await authService.registration(regData);
 
-            UserActions.saveUser(res.data, dispatch);
+            console.log(res.data);
+
+            userActions.saveUser(res.data, dispatch);
         } catch (e: any) {
             dispatch(setError(e.message || 'Reg failed'))
-            UserActions.clearUser(dispatch);
+            userActions.clearUser(dispatch);
         } finally {
             dispatch(setIsLoading(false));
         }
@@ -43,35 +44,13 @@ export const UserActions = {
         try {
             dispatch(setIsLoading(true));
 
-            UserActions.clearUser(dispatch)
+            userActions.clearUser(dispatch)
         } catch (e: any) {
             dispatch(setError(e.message))
         } finally {
             dispatch(setIsLoading(false));
         }
     },
-
-    changeTopic: (topicId: number) => async (dispatch: AppDispatch) => {
-        try {
-            dispatch(setIsLoading(true));
-            dispatch(setCurrentTopicId(topicId));
-        } catch (e: any) {
-            dispatch(setError(e.message))
-        } finally {
-            dispatch(setIsLoading(false));
-        }
-    },
-    changeModule: (moduleId: number) => async (dispatch: AppDispatch) => {
-        try {
-            dispatch(setIsLoading(true));
-            dispatch(setCurrentModuleId(moduleId));
-        } catch (e: any) {
-            dispatch(setError(e.message))
-        } finally {
-            dispatch(setIsLoading(false));
-        }
-    },
-
     saveUser: (user: IUser, dispatch: AppDispatch) => {
         localStorage.setItem('isAuth', 'true')
         localStorage.setItem('user', JSON.stringify(user))
@@ -88,3 +67,4 @@ export const UserActions = {
         dispatch(setUser({}));
     }
 }
+

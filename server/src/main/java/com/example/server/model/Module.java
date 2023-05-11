@@ -14,7 +14,9 @@ public class Module {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // TODO: Добавить number для нумеризации тем
+    @Column(nullable = false)
+    private Integer number;
+
 
     @Column(nullable = false)
     private String title;

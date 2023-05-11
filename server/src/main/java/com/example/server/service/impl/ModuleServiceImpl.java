@@ -19,6 +19,11 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public Module save(Module module) {
+        Module lastModule = moduleRepository.findLast();
+
+        if (lastModule == null) module.setNumber(1);
+        else module.setNumber(lastModule.getNumber() + 1);
+
         return moduleRepository.save(module);
     }
 
@@ -26,7 +31,7 @@ public class ModuleServiceImpl implements ModuleService {
     public Module delete(Long id) throws Exception {
         Optional<Module> optionalModule = this.findById(id);
 
-        if(optionalModule.isEmpty()) throw new Exception("Module not found");
+        if (optionalModule.isEmpty()) throw new Exception("Module not found");
 
         moduleRepository.delete(optionalModule.get());
 

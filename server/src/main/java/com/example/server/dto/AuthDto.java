@@ -16,6 +16,8 @@ public class AuthDto {
     private String username;
     private String email;
     private Integer fireDays;
+    private String leagueName;
+    private String imageUri;
     private Date lastPlay;
 
     public AuthDto(User user){
@@ -24,6 +26,8 @@ public class AuthDto {
         this.email = user.getEmail();
         this.fireDays = user.getFireDays();
         this.lastPlay = user.getLastPlay();
+        this.leagueName = user.getLeague();
+        this.imageUri = user.getImageUri();
     }
 
 

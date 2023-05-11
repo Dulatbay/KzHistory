@@ -1,9 +1,11 @@
 export default interface IUser{
-    id?: string,
+    id?: number,
     username?: string,
     email?: string,
     fireDays?: number,
-    lastPlay?: Date
+    leagueName?: string,
+    lastPlay?: Date,
+    imageUri?: string
 }
 
 

@@ -1,8 +1,10 @@
 import React, {FC} from "react";
 import {useNavigate} from "react-router-dom";
+import {useAppSelector} from "../../../store/hooks";
 
 export const HeaderProfile: FC = () => {
     const navigate = useNavigate();
+    const user = useAppSelector(state => state.userState.user)
 
     return (
         <div className="cursorable header-profile">
@@ -10,8 +12,8 @@ export const HeaderProfile: FC = () => {
                 <img className="header-logo" src="/assets/images/KhanLogo.svg" alt="Logo"/>
             </div>
             <div className="text" onClick={()=>{navigate('/profile')}}>
-                <div className="username">Dulatbay</div>
-                <div className="league_name">Khan</div>
+                <div className="username">{user?.username}</div>
+                <div className="league_name">{user?.leagueName}</div>
             </div>
         </div>
     )

@@ -1,0 +1,24 @@
+
+.button {
+    padding: 7px 20px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.primary-button {
+    background: var(--primary-button-bg);
+}
+
+.primary-outlined-button {
+    border: solid var(--primary-button-bg) 1px;
+    color: var(--primary-button-bg);
+}
+.primary-outlined-button .content {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+.error-outlined-button {
+    border: solid var(--error-color) 1px;
+    color: var(--error-color);
+}

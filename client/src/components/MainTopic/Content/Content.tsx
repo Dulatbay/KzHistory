@@ -1,16 +1,17 @@
-import {FC} from "react";
-import $api, {BASE_URL} from "../../../services/axiosService";
+import {FC, MouseEventHandler} from "react";
 
 interface ContentProps {
     title: string,
-    imageUri: string
+    imageUri: string,
+    number: number,
+    clickHandler: MouseEventHandler
 }
 
-export const Content: FC<ContentProps> = ({title, imageUri}) => {
+export const Content: FC<ContentProps> = ({title, imageUri,clickHandler}) => {
     return (
         <div className="content flex-column-center">
-            <div className="title cursorable">title</div>
-            <div className="image cursorable">
+            <div className="title cursorable">{title}</div>
+            <div className="image cursorable" onClick={clickHandler}>
                 <img className="border-round" src={imageUri} alt=""/>
             </div>
         </div>
