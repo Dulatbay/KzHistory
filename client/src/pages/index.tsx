@@ -1,5 +1,4 @@
-export {RegPage} from './RegPage'
-export {HomePage} from './HomePage'
-export {LoginPage} from './LoginPage'
+export {RegPage} from './RegPage/RegPage'
+export {LoginPage} from './LoginPage/LoginPage'
 export {NotFoundPage} from './NotFoundPage'
 

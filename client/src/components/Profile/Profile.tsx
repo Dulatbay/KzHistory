@@ -1,12 +1,5 @@
-import {FC, useEffect, useRef, useState} from "react";
 import {State, StateProps} from "./State/State";
-import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {useAction} from "../../hooks/useAction";
-import {useNavigate} from "react-router-dom";
 import {Header} from "./Header/Header";
-import {fileService} from "../../services/fileService";
-import {AxiosResponse} from "axios";
-import IUser from "../../types/IUser";
 
 const arrayState: StateProps[] = [
     {
@@ -30,48 +23,25 @@ const arrayState: StateProps[] = [
 
 ];
 
-export const Profile: FC = () => {
-    const user = useAppSelector(state => state.userState.user)
-    const userAction = useAction();
-    const navigate = useNavigate();
-    const inputRef = useRef<HTMLInputElement>(null);
-    const [image, setImage] = useState("");
-    const appDispatch = useAppDispatch()
+export const Profile = () => {
+    const user: any = {};
+    const editClickHandle = () => {
 
-    useEffect(() => {
-        setImage(user?.imageUri || "");
-    }, [user])
-
-    const handleClick = () => {
-        inputRef?.current?.click();
     };
 
-    const handleChange = (event: any) => {
-        const file = event.target.files[0];
 
-        if (!file || !user?.id) return;
+    const exitClickHandle = () => {
 
-
-        const formData = new FormData();
-        formData.append('image', file);
-        formData.append('userId', JSON.stringify(user?.id));
-
-        fileService.uploadUserImage(formData).then((r: AxiosResponse<IUser>) => {
-            userAction.saveUser(r.data, appDispatch);
-        }).catch(e=>console.log(e));
     };
-    const exitHandle = () => {
-        userAction.logout();
-        navigate('/login')
-    }
 
-    return <div className="content-container profile-container">
+
+    return <div className="profile-container">
         <Header/>
-        <div className="profile-main flex-row-between">
+        <div className="profile-main">
             <div className="profile-main-left">
                 <div className="profile-fields">
-                    <div className="profile-username">{user?.username}</div>
-                    <div className="profile-email">{user?.email}</div>
+                    <div className="profile-username">{user.username}</div>
+                    <div className="profile-email">{user.email}</div>
                     <div className="profile-reg_date">Registration: not found</div>
                 </div>
                 <div className="profile-friends-container flex-row-between">
@@ -86,18 +56,18 @@ export const Profile: FC = () => {
                 </button>
             </div>
             <div className="profile-main-right">
-                <div className={"profile-image-edit cursorable"} onClick={handleClick}>
+                <div className={"profile-image-edit cursorable"} onClick={editClickHandle}>
                     <img src="/assets/images/Edit.svg" alt=""/>
                     <input
                         type="file"
-                        ref={inputRef}
+                        ref={null}
                         style={{display: "none"}}
-                        onChange={handleChange}
-
+                        onChange={() => {
+                        }}
                     />
                 </div>
                 <img
-                    src={fileService.getFileName(image)}
+                    src={user.imageUri}
                     alt=""
                     className="profile-image"
                 />
@@ -135,6 +105,6 @@ export const Profile: FC = () => {
             </div>
         </div>
         <div className="line profile-bottom-line"></div>
-        <button className="button border-round error-outlined-button cursorable" onClick={exitHandle}>Exit</button>
+        <button className="button border-round error-outlined-button cursorable" onClick={exitClickHandle}>Exit</button>
     </div>
 }

@@ -5,11 +5,13 @@ import com.example.server.model.Topic;
 import com.example.server.service.ModuleService;
 import com.example.server.service.TopicService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
+@Slf4j
 public class ModuleInitializer implements CommandLineRunner {
     private final ModuleService moduleService;
     private final TopicService topicService;
@@ -17,6 +19,7 @@ public class ModuleInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         try {
+            log.debug("initializing modules data");
             Module module = this.createModule("Эпоха чингизидов");
             this.createTopic("Монгольское вторжение", module);
             this.createTopic("Золотая орда", module);
@@ -24,7 +27,6 @@ public class ModuleInitializer implements CommandLineRunner {
             this.createTopic("Сибирцы и Ногайцы", module);
             this.createTopic("Гос-во Эмира Темира и Могулистан", module);
             this.createTopic("Экономика и культура после монгольского периода", module);
-
 
             Module module2 = this.createModule("Казахское ханство");
             this.createTopic("Формирование казахского народа", module2);
@@ -37,10 +39,10 @@ public class ModuleInitializer implements CommandLineRunner {
             this.createTopic("Ликвидация ханской власти", module2);
             this.createTopic("Бокеевская орда", module2);
             this.createTopic("Последних хан казахов", module2);
-
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            log.debug(e.getMessage());
+            throw e;
         }
     }
     private void createTopic(String title, Module module){

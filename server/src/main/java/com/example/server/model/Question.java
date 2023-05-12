@@ -1,34 +1,31 @@
 package com.example.server.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Data
 @Entity
-@Table(name = "topics")
-public class Topic {
+@Table(name = "questions")
+public class Question {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private Integer number;
+    private String questionText;
 
     @Column(nullable = false)
-    private String title;
+    private Integer answerIndex;
 
-    @Column(nullable = false)
-    private String fileUri;
+    @ElementCollection
+    private Collection<String> answers = new ArrayList<>();
 
-    @Column(nullable = false)
-    private String imageUri;
-
-    @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "moduleId")
-    private Module module;
 
 }

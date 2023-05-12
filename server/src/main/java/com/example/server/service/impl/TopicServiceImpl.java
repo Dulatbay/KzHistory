@@ -33,7 +33,7 @@ public class TopicServiceImpl implements TopicService {
     public Topic delete(Long id) throws Exception {
         Optional<Topic> optionalTopic = this.findById(id);
 
-        if (optionalTopic.isEmpty()) throw new Exception("Topic not found");
+        if (optionalTopic.isEmpty()) throw new Exception("TopicPdf not found");
 
         topicRepository.delete(optionalTopic.get());
 
@@ -59,7 +59,7 @@ public class TopicServiceImpl implements TopicService {
                 .stream()
                 .filter(topic -> Objects.equals(topic.getNumber(), topicNumber))
                 .findFirst();
-        if(optionalTopic.isEmpty()) throw new Exception("Topic not found");
+        if(optionalTopic.isEmpty()) throw new Exception("TopicPdf not found");
 
         return optionalTopic.get();
     }
