@@ -1,12 +1,11 @@
 package com.example.server.service.impl;
 
-import com.example.server.model.User;
-import com.example.server.repository.UserRepository;
+import com.example.server.auth.model.user.User;
+import com.example.server.auth.repository.UserRepository;
 import com.example.server.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -34,7 +33,7 @@ public class UserServiceIml implements UserService {
     }
 
     @Override
-    public User delete(Long id) throws Exception {
+    public User delete(Integer id) throws Exception {
         Optional<User> optionalUser = this.findById(id);
 
         if(optionalUser.isEmpty()) throw new Exception("User not found");
@@ -45,7 +44,7 @@ public class UserServiceIml implements UserService {
     }
 
     @Override
-    public Optional<User> findById(Long id) {
+    public Optional<User> findById(Integer id) {
         return userRepository.findById(id);
     }
 
@@ -58,7 +57,6 @@ public class UserServiceIml implements UserService {
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

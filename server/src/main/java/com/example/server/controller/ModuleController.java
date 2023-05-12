@@ -1,6 +1,5 @@
 package com.example.server.controller;
 
-import com.example.server.dto.ErrorDto;
 import com.example.server.model.Module;
 import com.example.server.service.FileService;
 import com.example.server.service.ModuleService;
@@ -52,10 +51,6 @@ public class ModuleController {
                         .findById(id)
                         .orElseThrow(() -> new Exception("Module not found")));
     }
-
-    @ExceptionHandler
-    public ResponseEntity<ErrorDto> handleException(Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorDto(e.getMessage()));
-    }
 }
+
+
