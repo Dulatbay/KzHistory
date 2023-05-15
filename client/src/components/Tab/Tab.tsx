@@ -1,5 +1,8 @@
 import styles from './tab.module.scss'
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
+import {Button} from "@mui/material";
+import {useLogoutUserMutation} from "../../redux/api/authApi";
+import {useEffect} from "react";
 
 
 interface IPage {
@@ -35,6 +38,14 @@ const pages: IPage[] = [
 ]
 
 export const Tab = () => {
+    const [logout, {isSuccess}] = useLogoutUserMutation();
+    const navigate = useNavigate();
+
+
+    useEffect(()=>{
+        if(isSuccess) navigate('/')
+    },[isSuccess, navigate])
+
     return (
         <div className={styles.container}>
             <div className="header">
@@ -51,7 +62,14 @@ export const Tab = () => {
                     }
                 </ul>
             </div>
-            <div className="bottom"></div>
+            <div className="bottom">
+                <Button onClick={() => {
+                    logout()
+
+                }}>
+                    Logout
+                </Button>
+            </div>
         </div>
     )
 }
