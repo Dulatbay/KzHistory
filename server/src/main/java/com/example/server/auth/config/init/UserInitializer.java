@@ -23,7 +23,6 @@ public class UserInitializer implements CommandLineRunner {
                     .email("admin@mail.com")
                     .username("admin")
                     .password("password")
-                    .role(ADMIN)
                     .build();
             System.out.println("Admin token: " + service.register(admin).getAccessToken());
 
@@ -31,7 +30,6 @@ public class UserInitializer implements CommandLineRunner {
                     .email("manager@mail.com")
                     .username("manager")
                     .password("password")
-                    .role(MANAGER)
                     .build();
             System.out.println("Manager token: " + service.register(manager).getAccessToken());
 
@@ -39,7 +37,6 @@ public class UserInitializer implements CommandLineRunner {
                     .email("user@mail.com")
                     .username("user")
                     .password("password")
-                    .role(USER)
                     .build();
             System.out.println("User token: " + service.register(user).getAccessToken());
 

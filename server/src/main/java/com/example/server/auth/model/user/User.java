@@ -1,6 +1,9 @@
 package com.example.server.auth.model.user;
 
 import com.example.server.auth.model.token.Token;
+import com.example.server.model.League;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,7 +38,8 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    private String league;
+    @Enumerated(EnumType.STRING)
+    private League league = League.LITTLE_BOY;
 
     private Integer fireDays;
 
@@ -47,6 +51,7 @@ public class User implements UserDetails {
     private Role role = Role.USER;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private List<Token> tokens = new ArrayList<>();
 
 

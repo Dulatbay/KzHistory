@@ -59,8 +59,8 @@ public class UserServiceIml implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> optionalUserFromDb = this.findByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<User> optionalUserFromDb = this.findByEmail(email);
 
         if(optionalUserFromDb.isEmpty()) throw new UsernameNotFoundException("User not found");
 

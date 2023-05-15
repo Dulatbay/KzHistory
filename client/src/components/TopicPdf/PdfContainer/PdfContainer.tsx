@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {Document, Page, pdfjs} from 'react-pdf';
-import {fileService} from "../../../services/fileService";
 import axios from "axios";
 
 export const PdfContainer = ({filename}: { filename: string }) => {

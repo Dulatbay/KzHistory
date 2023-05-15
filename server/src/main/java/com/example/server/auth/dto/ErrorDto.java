@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationErrorDto {
+public class ErrorDto {
     private Integer statusCode;
     private String message;
 }

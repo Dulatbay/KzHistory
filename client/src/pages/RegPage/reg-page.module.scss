@@ -1,11 +1,11 @@
-$login-bg-color: #DCDCDC;
+$reg-bg-color: #DCDCDC;
 
 .container{
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: $login-bg-color;
+  background: $reg-bg-color;
   width: 400px;
   border-radius: 7px;
   box-shadow: rgba(0, 0, 0, 0.38) 0 0 30px 1px;

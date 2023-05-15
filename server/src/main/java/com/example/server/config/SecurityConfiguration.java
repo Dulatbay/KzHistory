@@ -13,6 +13,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 import static com.example.server.auth.model.user.Permission.*;
 import static com.example.server.auth.model.user.Role.ADMIN;
@@ -35,11 +41,12 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf()
-                .disable()
+                .csrf().disable()
+                .cors()
+                .and()
                 .authorizeHttpRequests()
                 .requestMatchers(
-                        "/api/v1/auth/**",
+                        "/api/v1/**",
                         "/v2/api-docs",
                         "/v3/api-docs",
                         "/v3/api-docs/**",
@@ -53,9 +60,7 @@ public class SecurityConfiguration {
                 )
                 .permitAll()
 
-
                 .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
-
 
                 .requestMatchers(GET, "/api/v1/management/**").hasAnyAuthority(ADMIN_READ.name(), MANAGER_READ.name())
                 .requestMatchers(POST, "/api/v1/management/**").hasAnyAuthority(ADMIN_CREATE.name(), MANAGER_CREATE.name())
@@ -72,7 +77,7 @@ public class SecurityConfiguration {
 
 
                 .anyRequest()
-                .authenticated()
+                .fullyAuthenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -86,5 +91,16 @@ public class SecurityConfiguration {
         ;
 
         return http.build();
+    }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // список разрешенных источников
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); // разрешенные HTTP-методы
+        configuration.setAllowedHeaders(Arrays.asList("*")); // разрешенные заголовки
+        configuration.setAllowCredentials(true); // разрешаем кросс-доменные запросы с использованием cookie-файлов
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

@@ -3,17 +3,20 @@ package com.example.server.auth.service;
 import com.example.server.auth.dto.AuthenticationRequestDto;
 import com.example.server.auth.dto.AuthenticationResponseDto;
 import com.example.server.auth.dto.RegistrationRequestDto;
+import com.example.server.auth.dto.UserDto;
 import com.example.server.auth.model.token.Token;
 import com.example.server.auth.model.token.TokenType;
 import com.example.server.auth.model.user.Role;
 import com.example.server.auth.model.user.User;
 import com.example.server.auth.repository.TokenRepository;
 import com.example.server.auth.repository.UserRepository;
+import com.example.server.model.League;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -62,7 +65,8 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole() == null ? Role.USER : request.getRole())
+                .league(League.LITTLE_BOY)
+                .role(Role.USER)
                 .build();
 
         var savedUser = userRepository.save(user);
@@ -74,6 +78,7 @@ public class AuthenticationService {
         return AuthenticationResponseDto.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .userDto(new UserDto(user))
                 .build();
     }
 
@@ -102,10 +107,11 @@ public class AuthenticationService {
         return AuthenticationResponseDto.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .userDto(new UserDto(user))
                 .build();
     }
 
-    public void refreshToken(
+    public AuthenticationResponseDto refreshToken(
             HttpServletRequest request,
             HttpServletResponse response) throws IOException {
 
@@ -114,14 +120,13 @@ public class AuthenticationService {
         final String email;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return;
+            throw new AuthenticationServiceException("Invalid signature of token");
         }
 
         refreshToken = authHeader.substring(7);
         try {
             email = jwtService.extractEmail(refreshToken);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new AuthenticationServiceException("Invalid signature of token");
         }
 
@@ -139,12 +144,13 @@ public class AuthenticationService {
             revokeAllUserTokens(user);
 
             saveUserToken(user, accessToken);
-            var authResponse = AuthenticationResponseDto.builder()
+            return AuthenticationResponseDto.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken)
+                    .userDto(new UserDto(user))
                     .build();
-            new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
         }
+        throw new AuthenticationServiceException("Invalid token");
 
 
     }

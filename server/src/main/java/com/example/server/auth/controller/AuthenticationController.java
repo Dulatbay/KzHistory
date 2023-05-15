@@ -1,6 +1,6 @@
 package com.example.server.auth.controller;
 
-import com.example.server.auth.dto.AuthenticationErrorDto;
+import com.example.server.auth.dto.ErrorDto;
 import com.example.server.auth.dto.AuthenticationRequestDto;
 import com.example.server.auth.dto.AuthenticationResponseDto;
 import com.example.server.auth.dto.RegistrationRequestDto;
@@ -12,16 +12,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.security.SignatureException;
 import java.sql.SQLException;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AuthenticationController {
     private final AuthenticationService authService;
 
@@ -32,19 +31,20 @@ public class AuthenticationController {
         return ResponseEntity.ok(authService.register(request));
     }
 
-    @PostMapping("/authenticate")
+
+    @PostMapping("/login")
     public ResponseEntity<AuthenticationResponseDto> authenticate(
             @RequestBody AuthenticationRequestDto request
-    )  {
+    ) {
         return ResponseEntity.ok(authService.authenticate(request));
     }
 
     @PostMapping("/refresh-token")
-    public void refreshToken(
+    public ResponseEntity<AuthenticationResponseDto> refreshToken(
             HttpServletRequest request,
             HttpServletResponse response
     ) throws IOException {
-        authService.refreshToken(request, response);
+        return ResponseEntity.ok(authService.refreshToken(request, response));
     }
 
     //
@@ -52,17 +52,18 @@ public class AuthenticationController {
     //
 
     @ExceptionHandler(SQLException.class)
-    public ResponseEntity<AuthenticationErrorDto> authenticationError(SQLException exception) {
-        AuthenticationErrorDto errorResponse = AuthenticationErrorDto.builder()
+    public ResponseEntity<ErrorDto> authenticationError(SQLException exception) {
+        ErrorDto errorResponse = ErrorDto.builder()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .message(exception.getMessage())
                 .build();
 
         return ResponseEntity.badRequest().body(errorResponse);
     }
+
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<AuthenticationErrorDto> authenticationError(BadCredentialsException exception) {
-        AuthenticationErrorDto errorResponse = AuthenticationErrorDto.builder()
+    public ResponseEntity<ErrorDto> authenticationError(BadCredentialsException exception) {
+        ErrorDto errorResponse = ErrorDto.builder()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .message(exception.getMessage())
                 .build();
@@ -71,8 +72,18 @@ public class AuthenticationController {
     }
 
     @ExceptionHandler(AuthenticationServiceException.class)
-    public ResponseEntity<AuthenticationErrorDto> authenticationError(AuthenticationServiceException exception) {
-        AuthenticationErrorDto errorResponse = AuthenticationErrorDto.builder()
+    public ResponseEntity<ErrorDto> authenticationError(AuthenticationServiceException exception) {
+        ErrorDto errorResponse = ErrorDto.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .message(exception.getMessage())
+                .build();
+
+        return ResponseEntity.badRequest().body(errorResponse);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorDto> authenticationError(Exception exception) {
+        ErrorDto errorResponse = ErrorDto.builder()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .message(exception.getMessage())
                 .build();

@@ -42,7 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
-        final String userEmail;
+        String userEmail;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
@@ -50,12 +50,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         jwt = authHeader.substring(7);
-        userEmail = jwtService.extractEmail(jwt);
+
+        try {
+            userEmail = jwtService.extractEmail(jwt);
+        } catch (Exception e) {
+            userEmail = null;
+        }
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            final String finalUserEmail = userEmail;
             User user = this.userService.findByEmail(userEmail).orElseThrow(
                     () -> new AuthenticationServiceException(
-                            String.format("User by email - \"%s\" not found", userEmail))
+                            String.format("User by email - \"%s\" not found", finalUserEmail))
             );
 
             var isTokenValid = tokenRepository.findByToken(jwt)
