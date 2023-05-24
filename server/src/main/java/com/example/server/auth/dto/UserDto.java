@@ -2,7 +2,7 @@ package com.example.server.auth.dto;
 
 import com.example.server.auth.model.user.Role;
 import com.example.server.auth.model.user.User;
-import com.example.server.model.League;
+import com.example.server.model.LeagueType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +17,7 @@ import java.util.Date;
 public class UserDto {
     private String username;
     private String email;
-    private League league;
+    private LeagueType league;
     private Date lastPlay;
     private String imageUri;
     private Role role;

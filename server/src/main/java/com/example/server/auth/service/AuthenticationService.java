@@ -10,13 +10,12 @@ import com.example.server.auth.model.user.Role;
 import com.example.server.auth.model.user.User;
 import com.example.server.auth.repository.TokenRepository;
 import com.example.server.auth.repository.UserRepository;
-import com.example.server.model.League;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.server.model.LeagueType;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -60,12 +59,45 @@ public class AuthenticationService {
         tokenRepository.saveAll(validUserTokens);
     }
 
+    private User getUserFromHeader(HttpServletRequest request) {
+        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        final String refreshToken;
+        final String email;
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new AuthenticationServiceException("Invalid signature of token");
+        }
+
+        refreshToken = authHeader.substring(7);
+
+        try {
+            email = jwtService.extractEmail(refreshToken);
+        } catch (Exception e) {
+            throw new AuthenticationServiceException("Invalid signature of token");
+        }
+
+        if (email == null)
+            throw new AuthenticationServiceException("Invalid token");
+
+        User user = this.userRepository.findByEmail(email)
+                .orElseThrow(
+                        () -> new AuthenticationServiceException("Email not found")
+                );
+
+        if (jwtService.isTokenValid(refreshToken, user)) return user;
+        else throw new AuthenticationServiceException("Invalid token");
+    }
+
     public AuthenticationResponseDto register(RegistrationRequestDto request) {
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new AuthenticationServiceException(String.format("Пользователь с почтой %s уже существует", request.getEmail()));
+        }
+
         var user = User.builder()
                 .email(request.getEmail())
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .league(League.LITTLE_BOY)
+                .league(LeagueType.LITTLE_BOY)
                 .role(Role.USER)
                 .build();
 
@@ -77,8 +109,7 @@ public class AuthenticationService {
 
         return AuthenticationResponseDto.builder()
                 .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .userDto(new UserDto(user))
+                .userId(user.getId())
                 .build();
     }
 
@@ -106,8 +137,7 @@ public class AuthenticationService {
 
         return AuthenticationResponseDto.builder()
                 .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .userDto(new UserDto(user))
+                .userId(user.getId())
                 .build();
     }
 
@@ -115,43 +145,25 @@ public class AuthenticationService {
             HttpServletRequest request,
             HttpServletResponse response) throws IOException {
 
-        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        final String refreshToken;
-        final String email;
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new AuthenticationServiceException("Invalid signature of token");
-        }
+        User user = getUserFromHeader(request);
 
-        refreshToken = authHeader.substring(7);
-        try {
-            email = jwtService.extractEmail(refreshToken);
-        } catch (Exception e) {
-            throw new AuthenticationServiceException("Invalid signature of token");
-        }
+        var accessToken = jwtService.generateToken(user);
 
-        if (email == null)
-            throw new AuthenticationServiceException("Invalid token");
+        revokeAllUserTokens(user);
 
-        User user = this.userRepository.findByEmail(email)
-                .orElseThrow(
-                        () -> new AuthenticationServiceException("Email not found")
-                );
+        saveUserToken(user, accessToken);
+        return AuthenticationResponseDto.builder()
+                .accessToken(accessToken)
+                .userId(user.getId())
+                .build();
 
-        if (jwtService.isTokenValid(refreshToken, user)) {
-            var accessToken = jwtService.generateToken(user);
+    }
 
-            revokeAllUserTokens(user);
+    public UserDto getUserByToken(HttpServletRequest request,
+                                  HttpServletResponse response) {
 
-            saveUserToken(user, accessToken);
-            return AuthenticationResponseDto.builder()
-                    .accessToken(accessToken)
-                    .refreshToken(refreshToken)
-                    .userDto(new UserDto(user))
-                    .build();
-        }
-        throw new AuthenticationServiceException("Invalid token");
-
-
+        User user = getUserFromHeader(request);
+        return new UserDto(user);
     }
 }

@@ -14,9 +14,6 @@ public class AuthenticationResponseDto {
     @JsonProperty("accessToken")
     private String accessToken;
 
-    @JsonProperty("refreshToken")
-    private String refreshToken;
-
-    @JsonProperty("user")
-    private UserDto userDto;
+    @JsonProperty("userId")
+    private Integer userId;
 }

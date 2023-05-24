@@ -46,17 +46,7 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers(
-                        "/api/v1/**",
-                        "/v2/api-docs",
-                        "/v3/api-docs",
-                        "/v3/api-docs/**",
-                        "/swagger-resources",
-                        "/swagger-resources/**",
-                        "/configuration/ui",
-                        "/configuration/security",
-                        "/swagger-ui/**",
-                        "/webjars/**",
-                        "/swagger-ui.html"
+                        "/api/v1/**"
                 )
                 .permitAll()
 
@@ -95,12 +85,14 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // список разрешенных источников
+        configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5174")); // список разрешенных источников
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); // разрешенные HTTP-методы
         configuration.setAllowedHeaders(Arrays.asList("*")); // разрешенные заголовки
         configuration.setAllowCredentials(true); // разрешаем кросс-доменные запросы с использованием cookie-файлов
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 }

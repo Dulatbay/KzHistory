@@ -1,9 +1,6 @@
 package com.example.server.auth.controller;
 
-import com.example.server.auth.dto.ErrorDto;
-import com.example.server.auth.dto.AuthenticationRequestDto;
-import com.example.server.auth.dto.AuthenticationResponseDto;
-import com.example.server.auth.dto.RegistrationRequestDto;
+import com.example.server.auth.dto.*;
 import com.example.server.auth.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,6 +29,7 @@ public class AuthenticationController {
     }
 
 
+
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponseDto> authenticate(
             @RequestBody AuthenticationRequestDto request
@@ -45,6 +43,14 @@ public class AuthenticationController {
             HttpServletResponse response
     ) throws IOException {
         return ResponseEntity.ok(authService.refreshToken(request, response));
+    }
+
+   @GetMapping("/me")
+    public ResponseEntity<UserDto> getUserByToken(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException {
+        return ResponseEntity.ok(authService.getUserByToken(request, response));
     }
 
     //

@@ -20,8 +20,8 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public Topic save(Topic topic) {
-        Topic lastTopic = topicRepository.findLast(topic.getModule().getId());
-
+//        Topic lastTopic = topicRepository.findLast(topic.getModule().getId());
+        Topic lastTopic = null;
 
         if(lastTopic == null) topic.setNumber(1);
         else topic.setNumber(lastTopic.getNumber() + 1);

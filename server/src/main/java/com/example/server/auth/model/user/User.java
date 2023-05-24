@@ -1,8 +1,7 @@
 package com.example.server.auth.model.user;
 
 import com.example.server.auth.model.token.Token;
-import com.example.server.model.League;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.example.server.model.*;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -39,7 +39,7 @@ public class User implements UserDetails {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private League league = League.LITTLE_BOY;
+    private LeagueType league = LeagueType.LITTLE_BOY;
 
     private Integer fireDays;
 
@@ -53,6 +53,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private List<Token> tokens = new ArrayList<>();
+
+
+    private LocalTime createAt = LocalTime.now();
 
 
     @Override

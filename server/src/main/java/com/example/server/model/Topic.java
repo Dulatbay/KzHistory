@@ -1,10 +1,9 @@
 package com.example.server.model;
 
+import com.example.server.dto.NodeDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.Collection;
 
 @Data
 @Entity
@@ -20,8 +19,6 @@ public class Topic {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
-    private String fileUri;
 
     @Column(nullable = false)
     private String imageUri;
@@ -31,4 +28,6 @@ public class Topic {
     @JoinColumn(name = "moduleId")
     private Module module;
 
+    @Column(columnDefinition = "bytea")
+    private NodeDto content;
 }
